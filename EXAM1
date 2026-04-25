@@ -3,25 +3,33 @@
 # 接下來加入保底機制，保底有很多種，包含抽多少一定會出SSR，以及抽多少開始增加出SSR機率的，這裏先采用抽到N抽一定會出SSR的做法。
 # 假設抽到SSR的機率是p
 # 這種情況下，期望值的計算會變成：E =(1 - (1 - p)^N)/p，内容跟上述大差不差，但計算方式會略不一樣。round函數是用來四捨五入到小數點第二位用的。
+# 接下來額外增加「當其UP角色不止一個」的狀況，實際上就是出率除2就好
 
 SSRProbability = input("請輸入SSR總出率 (例如 0.6，不用輸入%)：")
 UPSSR = input("請輸入當期UP佔所有SSR的出率 (例如60，不用輸入%)：")
 pity = input("請輸入保底抽數 (例如 60)：")
+SSRnumber = input("請輸入當期UP角色有幾個 (例如 2)：")
+
 
 # input輸入的默認是文字，這裏是把内容轉換成數字並進行百分比的運算
 p = float(SSRProbability) / 100
 UPSSR = float(UPSSR) / 100
 n = int(pity)
+UPnum = int(SSRnumber)
+
+# 計算單一目標角色的機率
+UPtarget = UPSSR / UPnum
 
 # 計算平均需要幾抽才能拿到「任意一隻SSR」
 expectedSSR = (1 - (1 - p) ** n) / p
 
-# 計算抽到的SR是當期UP的機率
-expectedUPSSR = 1 / UPSSR
+# 計算抽到的SR是當期UP的目標機率
+expectedUPSSR = 1 / UPtarget
 
 # 計算總期望抽數
 TOTAL = expectedSSR * expectedUPSSR
 
 # 最終計算結果
 print("\n————————已計算成功————————")
+print("目標角色實際機率為：", round(UPtarget * 100, 2), "%")
 print("在有保底的情況下，抽數的期望值為：大約", round(TOTAL, 2), "抽")
