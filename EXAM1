@@ -1,0 +1,21 @@
+# 這是一個抽卡期望值計算機，借由使用者填入抽卡的機率以及當期UP卡的出率，能夠協助計算期望值。
+# 這一階段的程式碼不考慮卡池保底機制。
+
+# 這段需要使用者輸入三個内容，分別是總出率以及當期UP機率
+SSRProbability = input("請輸入SSR總出率 (例如 0.6，不用輸入%)：")
+UPSSR = input("請輸入當期UP佔所有SSR的出率 (例如60，不用輸入%)：")
+
+# input輸入的默認是文字，這裏是把内容轉換成數字並進行百分比的運算
+SSRProbability = float(SSRProbability) / 100
+UPSSR = float(UPSSR) / 100
+
+# 計算單抽命中當期UP角色的機率
+target = SSRProbability * UPSSR
+
+# 計算期望值 (機率的倒數)
+expected = 1 / target
+
+# 最終計算結果
+print("\n————————已計算成功————————")
+print("單抽命中當期 UP 的機率為：", target)
+print("在沒有保底的情況下，抽數的期望值為：大約", round(expected , 2), "抽")
